@@ -13,7 +13,7 @@ public class Order {
     }
 
     public void addItem(OrderedItem item) {
-        System.out.println(" ITEM BEING ADDED" + cart.add(item));
+        cart.add(item);
     }
 
     public List<OrderedItem> getAllItem() {

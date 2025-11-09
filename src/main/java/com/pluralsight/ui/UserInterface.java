@@ -1,6 +1,7 @@
 package com.pluralsight.ui;
 
 import com.pluralsight.Main;
+import com.pluralsight.models.ChipsAndSalsa;
 import com.pluralsight.models.Drink;
 import com.pluralsight.models.Order;
 import com.pluralsight.util.Receipt;
@@ -74,7 +75,20 @@ public class UserInterface {
 
     private void addChipSalsa(Order order) {
         System.out.println("""
-                Chips&Salsa   ($1.50)""");
+                Chips&Salsa   ($1.50)
+                salsa Sauce Option:
+                                   1) Birrieraia Familia Castro
+                                   2) Taco Nazo
+                                   3) Los Tacos
+                Choice: """);
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        if (choice == 1 || choice == 2 || choice == 3) {
+            ChipsAndSalsa cp = new ChipsAndSalsa(choice);
+            order.addItem(cp);
+            System.out.println("Added: " + cp.description() + " - $" +
+                    String.format("%.2f", cp.getPrice()));
+        } else System.err.println("Wrong choice");
     }
 
     private void addTaco() {
