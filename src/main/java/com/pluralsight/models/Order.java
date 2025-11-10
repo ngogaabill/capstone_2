@@ -1,7 +1,5 @@
 package com.pluralsight.models;
 
-import com.pluralsight.util.Receipt;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class Order {
         cart.add(item);
     }
 
-    public List<OrderedItem> getAllItem() {
+    public List<OrderedItem> getAllItems() {
         return cart;
     }
 
