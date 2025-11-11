@@ -106,15 +106,15 @@ public class UserInterface {
         switch (tacoSize) {
             case 1 -> {
                 taco.setTacoSize("Single");
-                taco.tacoSizePrice(3.50);
+                taco.gettacoSizePrice(3.50);
             }
             case 2 -> {
                 taco.setTacoSize("3-Taco");
-                taco.tacoSizePrice(9.00);
+                taco.gettacoSizePrice(9.00);
             }
             case 3 -> {
                 taco.setTacoSize("Burrito");
-                taco.tacoSizePrice(8.50);
+                taco.gettacoSizePrice(8.50);
             }
             default -> System.err.println("Wrong Choice");
         }
@@ -146,6 +146,7 @@ public class UserInterface {
         switch (toppingsOption) {
             case 1:
                 regularToppings(taco);
+                order.addItem(taco);
                 break;
             case 2:
                 //premiumToppings();
@@ -170,7 +171,7 @@ public class UserInterface {
                       9- corn
                 Choice(i.e 1/2/3)""");
         String choices = scanner.nextLine().trim();
-        String[] toppingChoices = choices.split("\\/");
+        String[] toppingChoices = choices.split("\\/"); //["2","4"] -> [2,4]
 
             //convert the string input into a array of numbers
         for (String c : toppingChoices) {
@@ -181,6 +182,7 @@ public class UserInterface {
                     Toppings sauce = new Toppings(topps[index - 1], Toppings.REGULAR, false);
                     System.out.println(sauce.toString());
                     taco.addTopping(sauce);
+
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Wrong entry" + toppingChoices);

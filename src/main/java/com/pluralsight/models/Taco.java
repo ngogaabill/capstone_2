@@ -7,6 +7,7 @@ public class Taco implements OrderedItem {
     private String tortillaType;
     private String tacoSize;
     private boolean deepFried;
+    private double tacoSizePrice;
     private ArrayList<Toppings> toppings = new ArrayList<>();
 
     public Taco() {
@@ -44,20 +45,28 @@ public class Taco implements OrderedItem {
 
     @Override
     public String description() {
-        return "";
+        return "Size" + getTacoSize() + "Tortilla type:" + getTortillaType() + "Toppings:" + getToppings();
+    }
+
+    public ArrayList<Toppings> getToppings() {
+        return toppings;
     }
 
     @Override
     public double getPrice() {
-        return 0;
+        return tacoSizePrice;
     }
 
-    public void tacoSizePrice(double v) {
-
+    public void gettacoSizePrice(double v) {
+        this.tacoSizePrice = v;
     }
 
     public void addTopping(Toppings sauce) {
         toppings.add(sauce);
-        System.out.println(toppings.size());
+    }
+
+    @Override
+    public String toString() {
+        return description() + getPrice();
     }
 }

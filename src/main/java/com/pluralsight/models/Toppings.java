@@ -34,13 +34,14 @@ public class Toppings {
     public int getPrice() {
         return 0;
     }
+    public String getDescription(){
+        return "Topping " + name + '\'' +
+                ", type='" + type + '\'' ;
+
+    }
 
     @Override
     public String toString() {
-        return "Toppings{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", isExtra=" + isExtra +
-                '}';
+        return getDescription() + getPrice();
     }
 }
