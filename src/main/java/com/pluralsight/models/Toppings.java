@@ -31,17 +31,20 @@ public class Toppings {
         return type;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return 0;
     }
-    public String getDescription(){
-        return "Topping " + name + '\'' +
-                ", type='" + type + '\'' ;
 
+    public String getDescription() {
+        return name;
     }
 
     @Override
     public String toString() {
+        //dont print prices for free stuff
+        if (getType().matches("SAUCE") || getType().matches("REGULAR") || getType().matches("SIDE")) {
+            return getDescription();
+        }
         return getDescription() + getPrice();
     }
 }

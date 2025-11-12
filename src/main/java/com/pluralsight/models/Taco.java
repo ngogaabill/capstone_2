@@ -39,13 +39,13 @@ public class Taco implements OrderedItem {
         return tacoSize;
     }
 
-    public boolean isDeepFried() {
+    public boolean isDeepFried(boolean b) {
         return deepFried;
     }
 
     @Override
     public String description() {
-        return "Size" + getTacoSize() + "Tortilla type:" + getTortillaType() + "Toppings:" + getToppings();
+        return "Size: " + getTacoSize() + " - Tortilla: " + getTortillaType() + "\nToppings:\n" + getToppings();
     }
 
     public ArrayList<Toppings> getToppings() {
@@ -67,6 +67,6 @@ public class Taco implements OrderedItem {
 
     @Override
     public String toString() {
-        return description() + getPrice();
+        return description() + "$" + getPrice() + "\n";
     }
 }
