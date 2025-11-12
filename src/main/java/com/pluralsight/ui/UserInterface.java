@@ -138,26 +138,126 @@ public class UserInterface {
 
         //toppings
         System.out.println("""
-                Options
-                   1) Regular Toppings
-                   2) Premium Toppings
+                Toppings Options
+                   1) Meat
+                   2) Cheese
+                   3) Other toppings
+                   4) Select sauces:
                 Choice: """);
         int toppingsOption = getInput();
         switch (toppingsOption) {
             case 1:
-                regularToppings(taco);
-                order.addItem(taco);
+                addMeat(taco);
                 break;
             case 2:
-                //premiumToppings();
+                addCheese();
+                break;
+            case 3:
+                regularToppings(taco);
+                break;
+            case 4:
+                selectSauces(taco);
                 break;
         }
-
+//        System.out.println("Do you want your Taco Deep Fried?(Y/N)");
+//        String deepFried = scanner.nextLine().trim().toUpperCase();
+//        if (deepFried.equals("Y")) {
+//            taco.isDeepFried(true);
+//        }
+        order.addItem(taco);
+        System.out.println("Added: " + taco.description() + "- $" + String.format("%.2f", taco.getPrice()));
 
     }
 
+    private void addCheese() {
+
+    }
+
+    private void addMeat(Taco taco) {
+        String[] meats = {"carne asada", "al pastor", "carnitas", "pollo", "chorizo", "pescado"};
+        System.out.println("""
+                 Meat Options:
+                      1) carne asada
+                      2) al pastor
+                      3) carnitas
+                      4) pollo
+                      5) chorizo
+                      6) pescado
+                Choice: """);
+        int meatChoice = getInput();
+        if (meatChoice >= 1 && meatChoice <= 6) {
+            String meatName = meats[meatChoice - 1];
+            //do you want extra
+            System.out.println("Do you want extra meat?(Y/N)");
+            String extraMeat = scanner.nextLine().trim().toUpperCase();
+            boolean isExtra = extraMeat.equals("Y");//If the answer is y then true
+            double meatPrice = 0.0;
+            double extraPrice = 0.0;
+            String tacoSize = taco.getTacoSize();
+            if (tacoSize.equals("Single")) {
+                meatPrice = 1.0;
+                extraPrice = 0.50;
+
+            } else if (tacoSize.equals("3-Taco")) {
+                meatPrice = 2.0;
+                extraPrice = 1.00;
+            } else if (tacoSize.equals("Burrito")) {
+                meatPrice = 3.0;
+                extraPrice = 1.50;
+            }
+            //add meat topping
+            PremiumToppings meat = new PremiumToppings(meatName, Toppings.MEAT, isExtra, meatPrice, extraPrice);
+            taco.addTopping(meat);
+            double totalMeatPrice = 0.0;
+            if (isExtra) {
+                totalMeatPrice = meatPrice + extraPrice;
+            } else {
+                totalMeatPrice = meatPrice;
+            }
+            String msg = "";
+            if (isExtra) {
+                msg = " Extra";
+            }
+            System.out.printf("Added: %s%s - $%.2f%n", meatName, msg, totalMeatPrice);
+            taco.addToppingPrice(totalMeatPrice);//send the total meatPrice
+
+        } else {
+            System.err.println("Wrong choice");
+        }
+
+    }
+
+    private void selectSauces(Taco taco) {
+        String[] sauces = {"Sauces", "salsa verde", "salsa roja", "chipotle", "habanero", "mild", "extra hot"};
+        System.out.println("""
+                Sauce Toppings Menu
+                        1- salsa verde
+                        2- salsa roja
+                        3- chipotle
+                        4- habanero
+                        5- mild
+                        6- extra hot
+                
+                 Choice(1/2/3): """);
+        String sauceChoices = scanner.nextLine().trim();
+        String[] selectedSauce = sauceChoices.split("\\/");
+
+        for (String s : selectedSauce) {
+            try {
+                int index = Integer.parseInt(s.trim());
+                if (index >= 1 && index <= 6) {
+                    Toppings sauce = new Toppings(sauces[index - 1], Toppings.SAUCE, false);
+                    taco.addTopping(sauce);
+
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Wrong entry" + selectedSauce);
+            }
+        }
+    }
+
     private void regularToppings(Taco taco) {
-        String[] topps = {"lettuce", "cilantro", "onions ", "tomatoes", "jalapeños", "radishes", "pico de", "guacamole", "corn"};
+        String[] regualarTopps = {"lettuce", "cilantro", "onions ", "tomatoes", "jalapeños", "radishes", "pico de", "guacamole", "corn"};
         System.out.println("""
                 Regular Toppings menu:
                       1- lettuce 
@@ -173,15 +273,14 @@ public class UserInterface {
         String choices = scanner.nextLine().trim();
         String[] toppingChoices = choices.split("\\/"); //["2","4"] -> [2,4]
 
-            //convert the string input into a array of numbers
+        //convert the string input into a array of numbers
         for (String c : toppingChoices) {
             try {
                 int index = Integer.parseInt(c.trim());
-                if (index >= 1 && index <= 6) {
-                    // Changed: Use Toppings.SAUCE instead of ToppingType.SAUCE
-                    Toppings sauce = new Toppings(topps[index - 1], Toppings.REGULAR, false);
-                    System.out.println(sauce.toString());
-                    taco.addTopping(sauce);
+                if (index >= 1 && index <= 9) {
+                    Toppings regular = new Toppings(regualarTopps[index - 1], Toppings.REGULAR, false);
+                    System.out.println("Added Topping: " + regular.toString());
+                    taco.addTopping(regular);
 
                 }
             } catch (NumberFormatException e) {
@@ -189,6 +288,7 @@ public class UserInterface {
             }
         }
     }
+
     private void addDrink(Order order) {
         System.out.print("""
                 ----Choose Your Size----
@@ -217,14 +317,14 @@ public class UserInterface {
 
     public static void checkOut(Order order) {
 
+        List<OrderedItem> items = order.getAllItems();
+        displayOrderSummary(items);
         System.out.print("Confirm order? (Y/N): ");
         String confirm = scanner.nextLine().trim().toUpperCase();
 
         if (confirm.equals("Y")) {
-            receipt.printReceipt(order);
+            receipt.printReceipt(order);//error it's not creating the file right away its waiting untill the program is closed
             System.out.println("Order confirmed!");
-            List<OrderedItem> items = order.getAllItems();
-            displayOrderSummary(items);
         } else {
             System.out.println("Order not confirmed.");
         }
@@ -262,5 +362,9 @@ public class UserInterface {
             scanner.nextLine();//consume Invalid input
             return -1;
         }
+    }
+
+    public void addOtherItem() {
+
     }
 }

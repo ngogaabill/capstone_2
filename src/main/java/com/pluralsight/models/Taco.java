@@ -69,4 +69,7 @@ public class Taco implements OrderedItem {
     public String toString() {
         return description() + "$" + getPrice() + "\n";
     }
+
+    public void addToppingPrice(double total) {
+    }
 }
