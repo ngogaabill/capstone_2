@@ -7,7 +7,7 @@ public class PremiumToppings extends Toppings {
     public PremiumToppings(String name, String type, boolean isExtra, double price, double extraPrice) {
         super(name, type, isExtra);
         this.price = price;
-        this.extraPrice = price;
+        this.extraPrice = extraPrice;
     }
 
     @Override
@@ -21,8 +21,8 @@ public class PremiumToppings extends Toppings {
     @Override
     public String toString() {
         if (isExtra()) {
-            return getName() + "Extra " + String.format("%.2f", getPrice());
+            return getName() + " Extra " + String.format("%.2f", getPrice());
         }
-        return getName() + String.format("%.2f", getPrice());
+        return getName() + String.format(" %.2f", getPrice());
     }
 }

@@ -8,6 +8,7 @@ public class Taco implements OrderedItem {
     private String tacoSize;
     private boolean deepFried;
     private double tacoSizePrice;
+    private double premiumPrice;
     private ArrayList<Toppings> toppings = new ArrayList<>();
 
     public Taco() {
@@ -45,6 +46,9 @@ public class Taco implements OrderedItem {
 
     @Override
     public String description() {
+        if (deepFried) {
+            return "Size: " + getTacoSize() + " - Tortilla: " + getTortillaType() + "\nToppings:\n" + getToppings() + "Deep Fried";
+        }
         return "Size: " + getTacoSize() + " - Tortilla: " + getTortillaType() + "\nToppings:\n" + getToppings();
     }
 
@@ -54,10 +58,10 @@ public class Taco implements OrderedItem {
 
     @Override
     public double getPrice() {
-        return tacoSizePrice;
+        return tacoSizePrice + premiumPrice;
     }
 
-    public void gettacoSizePrice(double v) {
+    public void getTacoSizePrice(double v) {
         this.tacoSizePrice = v;
     }
 
@@ -71,5 +75,6 @@ public class Taco implements OrderedItem {
     }
 
     public void addToppingPrice(double total) {
+        premiumPrice += total;
     }
 }

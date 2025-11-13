@@ -17,7 +17,8 @@ public class Receipt {
      * Write Order To Receipt File
      */
     public void printReceipt(Order order) {
-        String receiptFileName = generateTimestamp() + ".txt";
+        String folderPath = "src/main/resources/receipts";
+        String receiptFileName = folderPath + "/" + generateTimestamp() + ".txt";
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss");
         String date = String.valueOf(LocalDate.now());
         String time = LocalTime.now().format(dateTimeFormatter);
@@ -34,7 +35,7 @@ public class Receipt {
                 bf.write(String.valueOf(c));
             }
             bf.write("---------------------------------\n");
-            bf.write(String.format("Total Cost: $%20.2f" , Order.getTotalPrice()));
+            bf.write(String.format("Total Cost: $%20.2f", Order.getTotalPrice()));
             bf.write("\n THANKS FOR SHOPPING :)");
         } catch (IOException e) {
             throw new RuntimeException(e);
